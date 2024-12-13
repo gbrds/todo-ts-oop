@@ -3,10 +3,12 @@ import todoRoutes from './routes/todos'
 
 const app = express()
 
-app.use('./todos', todoRoutes)
+app.use(express.json())
+
+app.use('/todos', todoRoutes)
 
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
-    res.json({message: error.message})
+    res.status(500).json({message: error.message})
 })
 
 app.listen(3011, () => {

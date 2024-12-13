@@ -3,9 +3,13 @@ import { Todo } from '../models/todo'
 
 const todos: Todo[] = []
 
-export const createTodo = (req: Request, res: Response, next: NextFunction) => {
+interface CreateTodoRequest {
+    task: string;
+}
+
+export const createTodo = (req: Request<{}, {}, CreateTodoRequest>, res: Response, next: NextFunction) => {
     try{
-        const task = (req.body as {task: string}).task
+        const task = req.body.task
         const newTodo = new Todo(Math.random().toString(), task)
         todos.push(newTodo)
         res.status(201).json({
@@ -13,6 +17,6 @@ export const createTodo = (req: Request, res: Response, next: NextFunction) => {
             createTask: newTodo
         })
     } catch(error){
-        console.log(error)
+        next(error)
     }
 }

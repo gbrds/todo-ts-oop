@@ -14,7 +14,7 @@ const createTodo = (req, res, next) => {
         });
     }
     catch (error) {
-        console.log(error);
+        next(error);
     }
 };
 exports.createTodo = createTodo;
